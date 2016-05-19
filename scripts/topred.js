@@ -2,7 +2,7 @@ var scoreRegex = /\\d*,(?= "approved_by")/g;
 
 var Display = React.createClass({
     getInitialState: function() {
-        return {result: ''};
+        return {result: '-'};
     },
     getResult: function(query) {
         $.ajax({
@@ -14,7 +14,7 @@ var Display = React.createClass({
                 this.setState({result: score});
             }.bind(this),
             error: function(xhr, status, err) {
-                this.setState({result: ''});
+                this.setState({result: '-'});
             }.bind(this)
         });
     },
@@ -35,11 +35,11 @@ var Form = React.createClass ({
     },
     handleSubmit: function(e) {
         e.preventDefault();
-        var url = 'https://www.reddit.com/r/' + this.state.query + '/top/.json?limit=1';
         var text = this.state.query.trim();
         if (!text) {
             return;
         }
+        var url = 'https://www.reddit.com/r/' + text + '/top/.json?limit=1';
         this.props.onSubmit({url: url});
     },
     textChanged: function(e) {
@@ -48,8 +48,8 @@ var Form = React.createClass ({
     render: function() {
         return (
             <form className="queryForm container center-block" onSubmit={this.handleSubmit}>
-                <input className="col-xs-offset-3 col-xs-4" type="text" placeholder="Enter subreddit" value={this.state.query} onChange={this.textChanged} />
-                <input className="col-xs-2" type="submit" value="Search" />
+                <input className="col-xs-offset-4 col-xs-3" type="text" placeholder="Enter subreddit" value={this.state.query} onChange={this.textChanged} />
+                <input className="col-xs-1" type="submit" value="Search" />
             </form>
         );
     }
